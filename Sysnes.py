@@ -4,6 +4,7 @@ import os
 import subprocess
 import platform
 import time
+import sys
 
 def Limpiar():
     sistema = platform.system()
@@ -32,6 +33,13 @@ def check_metasploit():
     except subprocess.CalledProcessError:
         return False
     
+def check_tqdm():
+    try:
+        import tqdm
+        return True
+    except ImportError:
+        return False
+    
 def instalar_metasploit():
     try:
         comando = "sudo apt install metasploit-framework"
@@ -42,15 +50,47 @@ def instalar_metasploit():
         print(f"Error al instalar Metasploit: {e}")
         return False
     
+def instalar_tqdm():
+    try:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tqdm'])
+        print("tqdm se ha instalado correctamente.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error al instalar tqdm: {e}")
+    except Exception as e:
+        print(f"Se ha producido un error inesperado: {e}")
+    
 
 
 def Dependencias():
     print("Comprobando dependencias Instaladas")
     lapzo()
+
     print("Verificando La Herramienta Metasploit")
+    check_metasploit()
+    lapzo()
+
     print("Verificando la Dependencia MSFVenom")
     lapzo()
-    check_metasploit()
+    
+    print("Verificando la Libreria tqdm")
+    if not check_tqdm():
+        print("La Libreria de Python tqdm, no se encuentra instalada..")
+        od = input("¿Desea Instalarla Ahora? Y/N ")
+        if od == "N" or "n":
+            print("Error. No se Puede Continuar Con La Ejecucion del Playload")
+            print("Descarge las Dependencias Requeridas. Error 80004001")
+            input("Presione Enter Para Continuar... ")
+        else:
+            print("Iniciando Descarga De la Libreria...")
+            instalar_tqdm()
+            if instalar_tqdm():
+                Barra(desc="Verificando La Instalacion:")
+                print("Se Puede Proceder Con La Ejecucion del Playload")
+                input("Presione Enter Para Continuar... ")
+            else:
+                print("La instalación de Metasploit falló. Error 710048005")
+    lapzo()
+    
     if check_metasploit():
         print("msfvenom - Metasploit está instalado en el sistema.")
         input("\nPresione Enter Para Continuar.. ")
@@ -116,11 +156,6 @@ def executeandroid():
         Main()
         return False
 
-    
-
-    
-
-    
 
 def Main():
     print("Iniciando...")
