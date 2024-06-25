@@ -157,9 +157,7 @@ def executeandroid():
         return False
 
 
-def Main():
-    print("Iniciando...")
-    input("\nPresione Enter Para Continuar...")
+def Main():
     Limpiar()
     print("\n")
     print("  ██████▓██   ██▓  ██████  ███▄    █ ▓█████   ██████")
@@ -195,6 +193,9 @@ def Main():
     else:
         print("Programa Finalizado...")
 
+
+print("Iniciando...")
+    input("\nPresione Enter Para Continuar...")
 Main()
 
 
