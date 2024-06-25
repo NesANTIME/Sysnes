@@ -121,10 +121,10 @@ def executeandroid():
     print("\nEjecucion del Payload Completada...")
     print("A Continuacion, Se Completara La Creacion De La Apk\n")
     ip = input("Proporcione Su Direccion IP: \n")
-    lop = input("Su direccion IP:",ip," ¿Es Correcta? (y/n): ")
+    lop = input("Su direccion IP:" + str(ip) + " ¿Es Correcta? (y/n): ")
     while lop == "n":
         ip = input("Proporcione Su Direccion IP Nuevamente: \n")
-        lop = input("Su direccion IP:",ip," ¿Es Correcta? (y/n): ")
+        lop = input("Su direccion IP:" + str(ip) + " ¿Es Correcta? (y/n): ")
     Limpiar()
     print(f"Direccion IP ({ip}) Establecida Correctamente...\n")
 
