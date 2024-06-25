@@ -121,7 +121,7 @@ def Main():
 
     print("__________ Menu De Opciones __________")
     print("1. Crear Software (Reverb Shell)")
-    print("2. Iniciar Modo ROOT (En Espera de Reverb Shell)\n")
+    print("2. Iniciar Modo ROOT (En Espera de Reverb Shell)")
     print("3. Cerrar Sysnes")
     opc = int(input("Ingrese La Opcion: "))
     while (opc < 1) or (opc > 3):
