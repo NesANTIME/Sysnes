@@ -129,8 +129,7 @@ def Main():
         opc = int(input("Ingrese Nuevamente La Opcion: "))
 
     if (opc == 1):
-        print(" Creacion de Software (Version 1.2)\n")
-        print("\n")
+        print("\nCreacion de Software (Version 1.2)\n")
         print("\n---------- ¿Que Operacion Desea Realizar? ----------\n")
         print("1. Crear Archivo (.Apk) (Alfha v1)")
         print("2. Crear Archivo (.Exe o .msi) (Beta v-0)")
