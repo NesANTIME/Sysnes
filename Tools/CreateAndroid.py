@@ -1,5 +1,13 @@
 # Desarrollado Por NesAnTime, Todos los derechos Reservados
 
+#Programa Creado Por NesAnTime
+from tqdm import tqdm
+import os
+import subprocess
+import platform
+import time
+import sys
+
 
 def ToolCreatorAndroid():
     clear()
