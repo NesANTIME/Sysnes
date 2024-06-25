@@ -1,5 +1,14 @@
 #Creado Por NeAnTime, Modulos Para Sofware Principal
 
+#Programa Creado Por NesAnTime
+from tqdm import tqdm
+import os
+import subprocess
+import platform
+import time
+import sys
+
+
 def check_metasploit():
     try:
         subprocess.check_call(["which", "msfconsole"])
