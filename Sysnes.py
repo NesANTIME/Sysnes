@@ -28,7 +28,7 @@ def Opc_1():
 
 
 def Update():
-    rut = 'Scritps/.cache/'
+    rut = 'Scritps/cache/'
     archivo_txt = 'root.txt'
     
     ruta_txt = os.path.join(rut, archivo_txt)
