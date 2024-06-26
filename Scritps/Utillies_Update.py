@@ -26,7 +26,7 @@ def Barra(desc):
 #____________________________________________________________________________________________________
 
 def create_txt():
-    rut_archivo = '.cache/'
+    rut_archivo = 'cache/'
     nombre = 'root.txt'
 
     try:
