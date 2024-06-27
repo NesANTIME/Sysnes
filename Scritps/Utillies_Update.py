@@ -26,20 +26,7 @@ def Barra(desc):
 #____________________________________________________________________________________________________
 
 def create_txt():
-    rut_archivo = 'cache/'
-    nombre = 'root.txt'
-
-    try:
-        ruta_completa = os.path.join(rut_archivo, nombre)
-    
-        with open(ruta_completa, 'w') as archivo:
-            print(f"Archivo '{ruta_completa}', Registros Creados Exitosamente ")
-
-    except Exception as e:
-        print(f"Error al crear o escribir en el registro: {e}")
-
-
-
+    subprocess.run(['python', 'cache/data_temporal.py'])
 
 def Rel_tqdm():
     try:
