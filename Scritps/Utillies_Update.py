@@ -108,5 +108,7 @@ else:
     print("Todas Las Herramientas y Dependencias Se Encuentran Instaladas...")
     create_txt()
     reverse()
-    subprocess.run(['python', '../Sysnes.py'])
+    print("REINICIANDO, EL PAYLOAD")
+    reverse()
+    subprocess.run(['python', 'Sysnes.py'])
 
