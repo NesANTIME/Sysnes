@@ -26,7 +26,7 @@ def Barra(desc):
 #____________________________________________________________________________________________________
 
 def create_txt():
-    subprocess.run(['python', 'cache/data_temporal.py'])
+    subprocess.run(['python', 'Scritps/cache/data_temporal.py'])
 
 def Rel_tqdm():
     try:
