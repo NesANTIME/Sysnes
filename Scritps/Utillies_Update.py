@@ -14,8 +14,7 @@ def clear():
         subprocess.run(["clear"])
     else:
         print("Este Sistema No Posee Mas Soporte")
-def reverse():
-    seg = 3
+def reverse(seg):
     time.sleep(seg)
 def Barra(desc):
     lista_de_elementos = range(100)
@@ -33,6 +32,13 @@ def Rel_tqdm():
         import tqdm
         return True
     except ImportError:
+        return False
+    
+def Rel_pip():
+    try:
+        subprocess.check_call(['dpkg', '-s', "python3-pip"])
+        return True
+    except subprocess.CalledProcessError:
         return False
     
 def Rel_metasploit():
@@ -54,9 +60,19 @@ def installer_metasploit():
         print(f"Error al instalar Metasploit: {e}")
         return False
     
+def installer_pip():
+    try:
+        subprocess.check_call(['sudo', 'apt', 'install', '-y', 'python3-pip'])
+        subprocess.check_call(['sudo', 'apt', 'install', '-y', 'python3-pip'])
+        print("pip se ha instalado correctamente.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error al instalar pip: {e}")
+    except Exception as e:
+        print(f"Se ha producido un error inesperado: {e}")
 
 def installer_tqdm():
     try:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tqdm'])
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tqdm'])
         print("tqdm se ha instalado correctamente.")
     except subprocess.CalledProcessError as e:
@@ -76,39 +92,64 @@ def Submain(name, play):
 
     else:
         print(f"\nIniciando Descarga De la {play}...")
-        installer_tqdm()
-        if installer_tqdm():
-            Barra(desc="Verificando La Instalacion:")
-            print("\nSe Reiniciara El Payload, ¡Se Cerrara La Sesion!")
-            input("Presione Enter Para Continuar... ")
-            clear()
-        
-        else:
-            print("La instalación falló. Error 710048005")
+
 
 
 
 print("Verificando La Herramienta Metasploit ---")
 print("Verificando la Dependencia MSFVenom\n")
 Rel_metasploit()
-reverse()
+reverse(seg=1)
 
 print("Verificando La Herramienta Python3 ---")
 print("Verificando la Libreria tqdm\n")
 Rel_tqdm()
-reverse()
+print("\nVerificando la Libreria pip\n")
+Rel_pip()
+reverse(seg=2)
 
 if not Rel_tqdm():
     Submain(name="La Libreria tqdm De Python", play="Libreria")
+    installer_tqdm()
+    if installer_tqdm():
+            Barra(desc="Verificando La Instalacion:")
+            print("\nSe Reiniciara El Payload...")
+            reverse(seg=2)
+            subprocess.run(['python', 'Sysnes.py'])
+            clear()
+    else:
+        print("La instalación falló. Error 710048005")
+
+
+elif not Rel_pip():
+    Submain(name="La Libreria pip De Python", play="Libreria")
+    installer_pip()
+    if installer_pip():
+            Barra(desc="Verificando La Instalacion:")
+            print("\nSe Reiniciara El Payload...")
+            reverse(seg=2)
+            subprocess.run(['python', 'Sysnes.py'])
+            clear()
+    else:
+        print("La instalación falló. Error 710048005")
+
 
 elif not Rel_metasploit():
-    Submain(name="msfvenom - Metasploit", play="Dependencias")
+    Submain(name="msfvenom - Metasploit", play="Dependencia")
+    installer_metasploit()
+    if installer_metasploit():
+            Barra(desc="Verificando La Instalacion:")
+            print("\nSe Reiniciara El Payload...")
+            reverse(seg=2)
+            subprocess.run(['python', 'Sysnes.py'])
+            clear()
+    else:
+        print("La instalación falló. Error 710048005")
+
 
 else:
     print("Todas Las Herramientas y Dependencias Se Encuentran Instaladas...")
     create_txt()
-    reverse()
-    print("REINICIANDO, EL PAYLOAD")
-    reverse()
+    reverse(seg=1)
+    print("Iniciando el Payload...")
     subprocess.run(['python', 'Sysnes.py'])
-
