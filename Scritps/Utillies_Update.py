@@ -39,7 +39,14 @@ def Rel_pip():
         subprocess.check_call(['dpkg', '-s', "python3-pip"])
         return True
     except subprocess.CalledProcessError:
-        return False
+        return False 
+    
+def Rel_Twilio():
+    try:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'show', 'twilio'])
+        return True
+    except subprocess.CalledProcessError:
+       return False
     
 def Rel_metasploit():
     try:
@@ -69,6 +76,19 @@ def installer_pip():
         print(f"Error al instalar pip: {e}")
     except Exception as e:
         print(f"Se ha producido un error inesperado: {e}")
+
+def installer_Twilio():
+    try:
+        print("Se Iniciara La Instalacion...")
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'twilio'])
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'twilio'])
+        clear()
+        print("La Instalacion de Twilio se Completo Correctamente...")
+    except subprocess.CalledProcessError as e:
+        print(f"Error al instalar Twilio: {e}")
+    except Exception as e:
+        print(f"Se ha producido un error inesperado: {e}")
+    
 
 def installer_tqdm():
     try:
@@ -106,6 +126,8 @@ print("Verificando la Libreria tqdm\n")
 Rel_tqdm()
 print("\nVerificando la Libreria pip\n")
 Rel_pip()
+print("Verificando la libreria Twilio\n")
+Rel_Twilio()
 reverse(seg=2)
 
 if not Rel_tqdm():
@@ -125,6 +147,19 @@ elif not Rel_pip():
     Submain(name="La Libreria pip De Python", play="Libreria")
     installer_pip()
     if installer_pip():
+            Barra(desc="Verificando La Instalacion:")
+            print("\nSe Reiniciara El Payload...")
+            reverse(seg=2)
+            subprocess.run(['python', 'Sysnes.py'])
+            clear()
+    else:
+        print("La instalación falló. Error 710048005")
+
+
+elif not Rel_Twilio():
+    Submain(name="La Libreria Twilio De Python", play="Libreria")
+    installer_Twilio()
+    if installer_Twilio():
             Barra(desc="Verificando La Instalacion:")
             print("\nSe Reiniciara El Payload...")
             reverse(seg=2)
