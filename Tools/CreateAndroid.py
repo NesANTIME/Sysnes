@@ -44,14 +44,20 @@ clear()
 
 print(f"Se Ha Establecido Tu Direccion IP ({ipv4}) Por Defecto")
 on = input("¿Desea Cambiar La Direcccion IP Configurada por defecto? (y/n): ")
-while on == "y":
+if on == "y":
     newip = input("Ingrese Su Direccion IP: ")
     off = input("\nLa Direccion IP Ingresada ¿Es Correcta? (y/n): ")
-    if off == "y":
-        break
+    while off == "n" or "N":
+        newip = input("Ingrese Nuevamente Su Direccion IP: ")
+        off = input("\nLa Direccion IP Ingresada ¿Es Correcta? (y/n): ")
+    ipv4 = newip
+    print(f"Se ha Establecido la direccion IP ({ipv4})")
+    reverse(seg=2)
+else:
+    print(f"Se ha Establecido la direccion IP ({ipv4})")
+    reverse(seg=2)
     
-print(f"Se ha Establecido la direccion IP ({newip})")
-ipv4 = newip
+
 
 clear()
 port = int(input("Proporcione un Puerto de Escucha: "))
