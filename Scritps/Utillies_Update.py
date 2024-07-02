@@ -27,6 +27,9 @@ def Barra(desc):
 def create_txt():
     subprocess.run(['python', 'Scritps/cache/data_temporal.py'])
 
+def Utilios():
+    subprocess.run(['python', 'Scritps/Utillies_Update.py'])
+
 def Rel_tqdm():
     try:
         import tqdm
@@ -65,7 +68,9 @@ def installer_metasploit():
         return True
     except subprocess.CalledProcessError as e:
         print(f"Error al instalar Metasploit: {e}")
+        Utilios()
         return False
+    
     
 def installer_pip():
     try:
@@ -74,8 +79,10 @@ def installer_pip():
         print("pip se ha instalado correctamente.")
     except subprocess.CalledProcessError as e:
         print(f"Error al instalar pip: {e}")
+        Utilios()
     except Exception as e:
         print(f"Se ha producido un error inesperado: {e}")
+        Utilios()
 
 def installer_Twilio():
     try:
@@ -86,8 +93,10 @@ def installer_Twilio():
         print("La Instalacion de Twilio se Completo Correctamente...")
     except subprocess.CalledProcessError as e:
         print(f"Error al instalar Twilio: {e}")
+        Utilios()
     except Exception as e:
         print(f"Se ha producido un error inesperado: {e}")
+        Utilios()
     
 
 def installer_tqdm():
@@ -97,8 +106,10 @@ def installer_tqdm():
         print("tqdm se ha instalado correctamente.")
     except subprocess.CalledProcessError as e:
         print(f"Error al instalar tqdm: {e}")
+        Utilios()
     except Exception as e:
         print(f"Se ha producido un error inesperado: {e}")
+        Utilios()
 
 
 def Submain(name, play):
